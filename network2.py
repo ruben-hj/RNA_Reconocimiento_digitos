@@ -12,7 +12,6 @@ import random
 import sys
 import numpy as np
 
-
 #### Se Definen las funciones de costo cuadrática y de Cross-entropy
 
 class QuadraticCost(object):
@@ -116,10 +115,16 @@ class Network(object):
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 
+    def softmax(self, z):
+        """Función Softmax para calcular probabilidades."""
+        exp_z = np.exp(z - np.max(z))  # Restamos max(z) para mejorar la estabilidad numérica
+        return exp_z / exp_z.sum(axis=0, keepdims=True)
+
     def feedforward(self, a):
         """Devuelve la salida de la red si se ingresa ``a``."""
-        for b, w in zip(self.biases, self.weights):
-            a = sigmoid(np.dot(w, a)+b)
+        for b, w in zip(self.biases[:-1], self.weights[:-1]):
+            a = sigmoid(np.dot(w, a) + b)
+        a = self.softmax(np.dot(self.weights[-1], a) + self.biases[-1])  # Capa Softmax
         return a
 
     def SGD(self, training_data, epochs, mini_batch_size, eta,
@@ -247,8 +252,12 @@ class Network(object):
             zs.append(z)
             activation = sigmoid(z)
             activations.append(activation)
+            
+         # Capa Softmax
+        a = self.softmax(np.dot(self.weights[-1], activation) + self.biases[-1])
+
         # backward pass
-        delta = (self.cost).delta(zs[-1], activations[-1], y)
+        delta = a - y
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
       # Tenga en cuenta que la variable l en el bucle siguiente se usa un poco
