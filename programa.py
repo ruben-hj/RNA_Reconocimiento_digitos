@@ -1,27 +1,29 @@
-# Importa los módulos necesarios
-import mnist_loader
-import network
-import pickle
+# Importamos los módulos necesarios
+import mnist_loader  # Módulo para cargar datos MNIST
+import network2      # Nuestra implementación de la red neuronal
 
-# Carga los datos de entrenamiento y prueba utilizando el módulo 'mnist_loader'
-training_data, test_data, _ = mnist_loader.load_data_wrapper()
+# Cargamos los datos de entrenamiento, validación y prueba desde el módulo mnist_loader
+training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
 
-# Crea una instancia de la red neuronal con 784 neuronas en la capa de entrada, 30 en la capa oculta y 10 en la capa de salida
-net = network.Network([784, 30, 10])
+# Convertimos los datos de entrenamiento en una lista (para reutilizarlos)
+training_data = list(training_data)
 
-# Entrena la red neuronal utilizando el algoritmo SGD (descenso de gradiente estocástico) durante 30 épocas
-# con un tamaño de mini lote de 10 y una tasa de aprendizaje de 0.001, y evalúa su rendimiento en los datos de prueba
-net.SGD(training_data, 30, 10, 0.001, test_data=test_data)
+# Creamos una instancia de la red neuronal
+# Parámetros:
+# - [784, 50, 10]: Tamaños de las capas de la red. 784 neuronas de entrada, 30 en la capa oculta y 10 en la capa de salida.
+# - cost=network2.CrossEntropyCost: Usaremos la función de costo de entropía cruzada como criterio de entrenamiento.
+net = network2.Network([784, 30, 10], cost=network2.CrossEntropyCost)
 
-# Guarda la red neuronal entrenada en un archivo llamado 'mlRed.pkl' utilizando el módulo 'pickle'
-with open('mlRed.pkl', 'wb') as filel:
-    pickle.dump(net, filel)
+# Inicializamos los pesos de la red neuronal con la inicialización "large_weight_initializer"
+net.large_weight_initializer()
 
-# Sale del programa
-exit()
-
-# Aplana una imagen (no se proporciona la implementación de 'aplana') y pasa la imagen a través de la red neuronal
-# para obtener un resultado
-a = aplana(Imagen)
-resultado = net.feedforward(a)
-print(resultado)
+# Entrenamos la red neuronal utilizando el algoritmo de SGD (Stochastic Gradient Descent)
+# Parámetros:
+# - training_data: Datos de entrenamiento.
+# - 50: Número de épocas de entrenamiento.
+# - 10: Tamaño del mini lote (mini-batch size).
+# - 0.1: Tasa de aprendizaje (learning rate).
+# - lmbda=5.0: Parámetro de regularización (lambda).
+# - evaluation_data=validation_data: Datos de validación para monitorear el rendimiento durante el entrenamiento.
+# - monitor_evaluation_accuracy=True: Habilita el monitoreo de la precisión en los datos de validación.
+net.SGD(training_data, 50, 10, 0.1, lmbda=5.0, evaluation_data=validation_data, monitor_evaluation_accuracy=True)
