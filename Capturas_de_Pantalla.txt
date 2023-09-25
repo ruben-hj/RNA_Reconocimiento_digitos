@@ -1,3 +1,6 @@
 #Primer Captura de Pantalla de los resultados al correrer la RNA:
 https://www.dropbox.com/scl/fi/yhsa3qlxpot11w0x8aj1y/Resultados1.png?rlkey=d54faa7vpunjygnhpdtswltmu&dl=0
-
+#Segunda captura de pantalla - Optimizador ADAM
+https://www.dropbox.com/scl/fi/gwex9nuwgbq5x7yo34htm/Resultados2.1.png?rlkey=8j9p4sn4i3kalmfknl5htu495&dl=0
+#Tercera captura de pantalla - capa SoftMax
+https://www.dropbox.com/scl/fi/wn65glp5092m7nibsb2d2/Resultados2.2.png?rlkey=wxmvdeyy4dinuxpe43uaynbno&dl=0
