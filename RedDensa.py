@@ -13,7 +13,7 @@ dat=np.array(dataset)
 
 #Definimos hiperparámetros para el entrenamiento
 learning_rate = 0.001
-epochs = 10
+epochs = 25
 batch_size = 120
 
 # Definimos hiperparámetros para el entrenamiento
@@ -33,8 +33,11 @@ y_trainc = keras.utils.to_categorical(y_train, num_classes)
 y_testc = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
-model.add(Dense(512, activation='relu', input_shape=(784,))) #Capa densa con 512 neuronas y una funcion de activacion ReLu
-model.add(Dense(num_classes, activation='softmax'))
+model.add(Dense(512, activation='relu', input_shape=(784,)))
+model.add(Dropout(0.4)) #Anado dropout para evitar sobre ajuste
+model.add(Dense(256, activation='relu'))# Nueva capa
+model.add(Dropout(0.4))
+model.add(Dense(num_classes, activation='softmax')))
 #model.summary() #Desglosa la estructura de nuestro modelo
 
 # Compilamos el modelo especificando la función de pérdida, optimizador y métrica de evaluación
