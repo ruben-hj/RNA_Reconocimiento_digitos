@@ -33,7 +33,7 @@ y_trainc = keras.utils.to_categorical(y_train, num_classes)
 y_testc = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
-model.add(Dense(128, activation='sigmoid', input_shape=(784,))) #Capa densa con 128 neuronas
+model.add(Dense(512, activation='relu', input_shape=(784,))) #Capa densa con 512 neuronas y una funcion de activacion ReLu
 model.add(Dense(num_classes, activation='softmax'))
 #model.summary() #Desglosa la estructura de nuestro modelo
 
