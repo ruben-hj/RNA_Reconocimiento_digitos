@@ -3,7 +3,7 @@ from tensorflow import keras
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation
-from tensorflow.keras.optimizers import  Adam
+from tensorflow.keras.optimizers import  Adam, RMSprop
 import numpy as np
 
 dataset=mnist.load_data() #Cargamos el conjunto de datos MNIST y lo almacenamos en la variable "dataset"
@@ -34,15 +34,13 @@ y_testc = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
 model.add(Dense(512, activation='relu', input_shape=(784,)))
-model.add(Dropout(0.4)) #Anado dropout para evitar sobre ajuste
 model.add(Dense(256, activation='relu'))# Nueva capa
-model.add(Dropout(0.4))
-model.add(Dense(num_classes, activation='softmax')))
+model.add(Dense(num_classes, activation='softmax'))
 #model.summary() #Desglosa la estructura de nuestro modelo
 
 # Compilamos el modelo especificando la función de pérdida, optimizador y métrica de evaluación
 model.compile(loss='categorical_crossentropy',
-              optimizer=Adam(learning_rate=learning_rate),
+              optimizer=RMSprop(learning_rate=learning_rate), #cambio el optimizador a RMSprop
               metrics=['accuracy'])
 
 # Entrenamos el modelo en los datos de entrenamiento
