@@ -4,7 +4,7 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation
 from tensorflow.keras.optimizers import  Adam, RMSprop
-from tensorflow.keras.regularizers import L1, L2  # Importamos la regularización L2
+from tensorflow.keras.regularizers import L1, L2, l1_l2  # Importamos la regularización l1_l2
 import numpy as np
 
 dataset=mnist.load_data() #Cargamos el conjunto de datos MNIST y lo almacenamos en la variable "dataset"
@@ -34,8 +34,8 @@ y_trainc = keras.utils.to_categorical(y_train, num_classes)
 y_testc = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
-model.add(Dense(512, activation='relu', input_shape=(784,), kernel_regularizer=L2(l2=1e-6)))  # Capa oculta con regularización L2
-model.add(Dense(256, activation='relu', kernel_regularizer=L2(l2=1e-6)))  # otra capa oculta con regularización L2
+model.add(Dense(512, activation='relu', input_shape=(784,), kernel_regularizer=l1_l2(l1=1e-5, l2=1e-6)))  # Capa oculta con regularización l1_l2
+model.add(Dense(256, activation='relu', kernel_regularizer=l1_l2(l1=1e-5, l2=1e-6)))  # otra capa oculta con regularización l1_l2
 model.add(Dense(num_classes, activation='softmax'))
 #model.summary() #Desglosa la estructura de nuestro modelo
 
