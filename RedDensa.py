@@ -34,8 +34,10 @@ y_trainc = keras.utils.to_categorical(y_train, num_classes)
 y_testc = keras.utils.to_categorical(y_test, num_classes)
 
 model = Sequential()
-model.add(Dense(512, activation='relu', input_shape=(784,), kernel_regularizer=l1_l2(l1=1e-5, l2=1e-6)))  # Capa oculta con regularización l1_l2
+model.add(Dense(512, activation='relu', input_shape=(784,), kernel_regularizer=l1_l2(l1=1e-5, l2=1e-6)))# Capa oculta con regularización l1_l2
+model.add(Dropout(0.5)) #Dropout del 50%
 model.add(Dense(256, activation='relu', kernel_regularizer=l1_l2(l1=1e-5, l2=1e-6)))  # otra capa oculta con regularización l1_l2
+model.add(Dropout(0.5)) #Dropout del 50%
 model.add(Dense(num_classes, activation='softmax'))
 #model.summary() #Desglosa la estructura de nuestro modelo
 
